@@ -2,7 +2,7 @@
 - hosts:
   - all
   vars:
-    IMAGE_ELECTRUMX: ryanshaw/docker-electrumx:latest
+    IMAGE_ELECTRUMX: ryanshaw/electrumx:1.10.0
     IMAGE_GARLICOIND: ryanshaw/garlicoind:latest
   tasks:
   - name: Install aptitude using apt
