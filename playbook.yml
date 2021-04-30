@@ -1,0 +1,85 @@
+---
+- hosts:
+  - all
+  vars:
+    IMAGE_ELECTRUMX: ryanshaw/docker-electrumx:latest
+    IMAGE_GARLICOIND: ryanshaw/garlicoind:latest
+  tasks:
+  - name: Install aptitude using apt
+    apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+  - name: Install required system packages
+    apt: name={{ item }} state=latest update_cache=yes
+    loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+  - name: Add Docker GPG apt Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker Repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu bionic stable
+      state: present
+
+  - name: Update apt and install docker-ce
+    apt: update_cache=yes name=docker-ce state=latest
+
+  - name: Install Docker Module for Python
+    pip:
+      name: docker
+
+  - name: Pull GRLC daemon
+    docker_image:
+      name: "{{ IMAGE_ELECTRUMX }}"
+      source: pull
+    
+  - name: Pull GRLC daemon
+    docker_image:
+      name: "{{ IMAGE_GARLICOIND }}"
+      source: pull
+
+  - name: Docker network
+    docker_network:
+      name: garlicoin
+    
+  - name: Start garlicoind
+    docker_container:
+      name: garlicoind-node
+      image: "{{ IMAGE_GARLICOIND }}"
+      restart_policy: unless-stopped
+      state: started
+      networks:
+      - name: garlicoin
+      env:
+        RPCUSER: "{{ RPC_USER }}"
+        RPCPASSWORD: "{{ RPC_PASS }}"
+      ports:
+      - "127.0.0.1:42068:42068"
+      - "42069:42069"
+      volumes:
+      - garlicoind-data:/root/.garlicoin
+
+  - name: Pull ElectrumX image
+    docker_image:
+      name: "{{ IMAGE_ELECTRUMX }}"
+      source: pull
+
+  - name: Start ElectrumX
+    docker_container:
+      name: electrumx
+      image: "{{ IMAGE_ELECTRUMX }}"
+      restart_policy: unless-stopped
+      state: started
+      networks:
+      - name: garlicoin
+      volumes:
+      - electrumx_data:/data
+      ports:
+      - "50001:50001"
+      - "50002:50002"
+      env:
+        COIN: garlicoin
+        DAEMON_URL: "http://{{ RPC_USER }}:{{ RPC_PASS }}@garlicoind-node:42068"
+        RPC_HOST: "127.0.0.1"
+        RPC_PORT: "8000"
