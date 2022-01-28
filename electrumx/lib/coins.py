@@ -3016,15 +3016,19 @@ class Garlicoin(Coin):
     GENESIS_HASH = ('2ada80bf415a89358d697569c96eb98c'
                     'dbf4c3b8878ac5722c01284492e27228')
     DESERIALIZER = lib_tx.DeserializerSegWit
-    TX_COUNT = 1031869
-    TX_COUNT_HEIGHT = 2343659
+    TX_COUNT = 1
+    TX_COUNT_HEIGHT = 1
     TX_PER_BLOCK = 2
     RPC_PORT = 42068
     REORG_LIMIT = 800
-    
     PEERS = [
-        'us.node.garlico.in s t',
+        'us.node.garlico.in s',
         'ca.node.garlico.in s t',
-        'sg.node.garlico.in s t',
-        'de.node.garlico.in s t',
+        'sg.node.garlico.in s',
+        'de.node.garlico.in s',
+        'fr.garlium.crapules.org s',
+        'uk.garlium.crapules.org s',
+        'pl.garlium.crapules.org s',
+        'ca.garlium.crapules.org s',
+        'au.garlium.crapules.org s'
     ]
