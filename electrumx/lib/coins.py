@@ -3018,12 +3018,17 @@ class Garlicoin(Coin):
     DESERIALIZER = lib_tx.DeserializerSegWit
     TX_COUNT = 1
     TX_COUNT_HEIGHT = 1
-    TX_PER_BLOCK = 10
-    RPC_PORT = 9332
+    TX_PER_BLOCK = 2
+    RPC_PORT = 42068
     REORG_LIMIT = 800
-    
     PEERS = [
-        'garlic-us.0dayssey.com s t',
-        'garlic-ca.0dayssey.com s t',
-        'garlic-sg.0dayssey.com s t',
+        'us.node.garlico.in s',
+        'ca.node.garlico.in s t',
+        'sg.node.garlico.in s',
+        'de.node.garlico.in s',
+        'fr.garlium.crapules.org s',
+        'uk.garlium.crapules.org s',
+        'pl.garlium.crapules.org s',
+        'ca.garlium.crapules.org s',
+        'au.garlium.crapules.org s'
     ]
