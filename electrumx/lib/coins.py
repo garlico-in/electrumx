@@ -3026,7 +3026,7 @@ class Garlicoin(Coin):
         'ca.node.garlico.in s t',
         'sg.node.garlico.in s',
         'de.node.garlico.in s',
-	'cn.node.garlico.in s',
+	    'cn.node.garlico.in s',
         'fr.garlium.crapules.org s',
         'uk.garlium.crapules.org s',
         'pl.garlium.crapules.org s',
